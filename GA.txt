@@ -1,0 +1,80 @@
+
+
+
+
+0.登录ttps://analytics.google.com，新建媒体资源，然后网站会给出一段JS统计代码基础代码.
+嵌入该代码，紧随在<head>标签开始的后面
+pv, uv .
+
+已经嵌进去GA的代码就成
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127347068-11"></script> 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127347068-11');
+  gtag('config', 'UA-127347068-11', {'site_speed_sample_rate': 100});
+</script>
+
+
+如果嫌googletagmanager这个域名国内无法访问，就把这个js下载下来放在本地。
+
+1. 做一个转化度量。转化即，达到目标。达到目标的判定条件此处是用一个事件的发生（按钮被点）。
+
+
+GA中的事件（跳外站的时候它官方推荐这么处理）：
+var trackOutboundLink = function(url) {
+
+  gtag('event', 'button_click', {
+    'event_category': 'NextLabel',
+    'event_label': url,
+    'transport_type': 'beacon',
+    'event_callback': function(){document.location = url;}
+  });
+  
+}
+</script>
+
+触发事件的按钮增加onclick事件
+<button><a onclick="trackOutboundLink('weixin://'); return false;">BTN</a></button>
+
+
+	在上面的例子里面，button_click叫操作，NextLabel叫属性,url叫标签。
+
+	事件有几个属性：
+	操作(也就是event的第一个关键字)
+	类别（category）
+	标签(label)
+
+	目标有几个属性：
+	操作(也就是event的第一个关键字)
+	类别（category）
+	标签(label)
+
+	
+	 target 
+	目标创造方式为：左下角管理 -> 最右第三栏目标管理. 
+	目标有几种类型，我们用事件目标即可满足需求，因为我们就是一个单页面。
+
+	目标设置一个(或以上)条件即可（比如说置操作为button_click，就是一个条件，就可以; 置类别为NextLabel，就是两个条件，也可以）
+
+	当事件发生时，发出的条件与某目标一样，即可触发目标。
+	
+	目前我们对页面主要的转化也就是它会不会打开微信这一个，发点击事件的就行了。
+
+
+2. 将某个目标做为转化结果。在转化中可以选中目标做为转化条件来查看。
+   转化的访问者里面，在受众群体里面，加一个过滤条件即可。有转化访问者来源地域。
+   
+   目标可以是一个动作，一个网址（或站内的路由），也可以是一串动作组成叫目标渠道。
+    
+   目标和转化有时延，在实时里能看到的数据在其它地方要等。
+   
+   这部分只需要查看，两边团队都可以查看。
+ 
+
+
+
